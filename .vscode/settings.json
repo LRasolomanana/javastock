@@ -1,0 +1,8 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "JavaStocks/postgresql-42.7.10.jar",
+        "c:\\Users\\Carrefour Ormesson\\Downloads\\postgresql-42.7.10.jar",
+        "c:\\Users\\Carrefour Ormesson\\Downloads\\flatlaf-3.7.jar"
+    ]
+}
