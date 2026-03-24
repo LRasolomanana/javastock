@@ -53,17 +53,21 @@ public class VueMenuPrincipal extends JFrame {
         });
 
         // --- TABLEAU DE BORD ---
-        JPanel dashboardPanel = new JPanel(new GridLayout(2, 3, 25, 25));
+        // MODIFICATION : Utilisation de 0 pour les lignes afin d'en ajouter dynamiquement selon le nombre de tuiles
+        JPanel dashboardPanel = new JPanel(new GridLayout(0, 3, 25, 25));
         dashboardPanel.setBorder(new EmptyBorder(40, 40, 40, 40));
         dashboardPanel.setOpaque(false);
 
         dashboardPanel.add(creerTuileMenu("Gestion des articles", new Color(44, 62, 80)));
-        dashboardPanel.add(creerTuileMenu("Gestion des coureurs", new Color(52, 73, 94))); // <-- CELLE-CI VA CHANGER
+        dashboardPanel.add(creerTuileMenu("Gestion des coureurs", new Color(52, 73, 94)));
         dashboardPanel.add(creerTuileMenu("Gestion types d'épreuve", new Color(70, 90, 101)));
         dashboardPanel.add(creerTuileMenu("Gestion des réservations", new Color(84, 110, 122)));
         dashboardPanel.add(creerTuileMenu("Alertes rupture / attente", new Color(96, 125, 139)));
         dashboardPanel.add(creerTuileMenu("Consulter l'historique", new Color(120, 144, 156)));
-         dashboardPanel.add(creerTuileMenu("Gestion du réapprovisionnement", new Color(44, 62, 80)));
+        dashboardPanel.add(creerTuileMenu("Gestion du réapprovisionnement", new Color(44, 62, 80)));
+        
+        // MODIFICATION : Ajout de la nouvelle tuile pour les hébergements
+        dashboardPanel.add(creerTuileMenu("Gestion des hébergements", new Color(108, 122, 137)));
 
         this.add(dashboardPanel, BorderLayout.CENTER);
     }
@@ -90,7 +94,6 @@ public class VueMenuPrincipal extends JFrame {
                     new ArticleController(vueArticles);
                     vueArticles.setVisible(true);
                     
-                    // Retour au menu à la fermeture
                     vueArticles.addWindowListener(new java.awt.event.WindowAdapter() {
                         @Override
                         public void windowClosed(java.awt.event.WindowEvent e) {
@@ -99,57 +102,43 @@ public class VueMenuPrincipal extends JFrame {
                     });
 
                } else if (titre.equalsIgnoreCase("Gestion des coureurs")) {
-                    // ACTION DEMANDÉE : Lancer la gestion des coureurs
                     VueMenuPrincipal.this.setVisible(false);
                     VueGestionCoureurs vueCoureurs = new VueGestionCoureurs();
-                    new CoureurController(vueCoureurs); // On branche le contrôleur
+                    new CoureurController(vueCoureurs); 
                     vueCoureurs.setVisible(true);
 
-                    // Retour au menu à la fermeture
                     vueCoureurs.addWindowListener(new java.awt.event.WindowAdapter() {
                         @Override
                         public void windowClosed(java.awt.event.WindowEvent e) {
                             VueMenuPrincipal.this.setVisible(true);
                         }
                     });
-                    } else if (titre.equalsIgnoreCase("Gestion types d'épreuve")) {
-                    
-                    // On cache le menu
+                } else if (titre.equalsIgnoreCase("Gestion types d'épreuve")) {
                     VueMenuPrincipal.this.setVisible(false);
-                    
-                    // On lance la gestion des épreuves
                     VueGestionTypeEpreuve vueEpreuves = new VueGestionTypeEpreuve();
                     new TypeEpreuveController(vueEpreuves);
                     vueEpreuves.setVisible(true);
 
-                    // Retour automatique au menu à la fermeture
                     vueEpreuves.addWindowListener(new java.awt.event.WindowAdapter() {
                         @Override
                         public void windowClosed(java.awt.event.WindowEvent e) {
                             VueMenuPrincipal.this.setVisible(true);
                         }
                     });
-                    } else if (titre.equalsIgnoreCase("Gestion des réservations")) {
-                    
-                   
+                } else if (titre.equalsIgnoreCase("Gestion des réservations")) {
                     VueMenuPrincipal.this.setVisible(false);
-                    
                     VueMenuReservation vueReservation = new VueMenuReservation();
-                    // On lui passe la vueReservation ET le menuPrincipal pour le bouton "Retour"
                     new MenuReservationController(vueReservation, VueMenuPrincipal.this); 
                     vueReservation.setVisible(true);
 
-                    // Si on ferme avec la croix rouge, on réaffiche le menu principal
                     vueReservation.addWindowListener(new java.awt.event.WindowAdapter() {
                         @Override
                         public void windowClosed(java.awt.event.WindowEvent e) {
                             VueMenuPrincipal.this.setVisible(true);
                         }
                     });
-                    } else if (titre.equalsIgnoreCase("Alertes rupture / attente")) {
-                    
+                } else if (titre.equalsIgnoreCase("Alertes rupture / attente")) {
                     VueMenuPrincipal.this.setVisible(false);
-                    
                     VueMenuAlertes vueAlertes = new VueMenuAlertes();
                     new MenuAlertesController(vueAlertes, VueMenuPrincipal.this);
                     vueAlertes.setVisible(true);
@@ -160,10 +149,8 @@ public class VueMenuPrincipal extends JFrame {
                             VueMenuPrincipal.this.setVisible(true);
                         }
                     });
-                    } else if (titre.equalsIgnoreCase("Consulter l'historique")) {
-                    
+                } else if (titre.equalsIgnoreCase("Consulter l'historique")) {
                     VueMenuPrincipal.this.setVisible(false);
-                    
                     VueMenuHistorique vueHisto = new VueMenuHistorique();
                     new MenuHistoriqueController(vueHisto, VueMenuPrincipal.this);
                     vueHisto.setVisible(true);
@@ -174,10 +161,8 @@ public class VueMenuPrincipal extends JFrame {
                             VueMenuPrincipal.this.setVisible(true);
                         }
                     });
-                    } else if (titre.equalsIgnoreCase("Gestion du réapprovisionnement")) {
-                    
+                } else if (titre.equalsIgnoreCase("Gestion du réapprovisionnement")) {
                     VueMenuPrincipal.this.setVisible(false);
-                    
                     VueMenuReappro vueReappro = new VueMenuReappro();
                     new MenuReapproController(vueReappro, VueMenuPrincipal.this);
                     vueReappro.setVisible(true);
@@ -189,6 +174,30 @@ public class VueMenuPrincipal extends JFrame {
                         }
                     });
                     
+                // MODIFICATION : Nouveau bloc pour gérer le clic sur les hébergements
+                // MODIFICATION : Nouveau bloc pour gérer le clic sur les hébergements
+                } else if (titre.equalsIgnoreCase("Gestion des hébergements")) {
+                    VueMenuPrincipal.this.setVisible(false);
+                    
+                    try {
+                        VueGestionHebergement vueHebergement = new VueGestionHebergement();
+                        
+                        // ON DÉCOMMENTE ET ON ACTIVE LE CONTRÔLEUR ICI !
+                        new HebergementController(vueHebergement); 
+                        
+                        vueHebergement.setVisible(true);
+
+                        vueHebergement.addWindowListener(new java.awt.event.WindowAdapter() {
+                            @Override
+                            public void windowClosed(java.awt.event.WindowEvent e) {
+                                VueMenuPrincipal.this.setVisible(true);
+                            }
+                        });
+                    } catch (Exception ex) {
+                        // Secours si la classe n'est pas encore créée
+                        VueGenerique vueAutre = new VueGenerique(titre, VueMenuPrincipal.this);
+                        vueAutre.setVisible(true);
+                    }
 
                 } else {
                     // Pour les autres cases pas encore codées
